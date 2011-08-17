@@ -24,6 +24,8 @@
 \usepackage{helvet}
 %\usepackage{bookman}
 \usepackage{palatino}
+\usepackage{tikz}
+\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,shadows}
 
 \newcommand{\captionfont}{\footnotesize}
 
@@ -118,7 +120,7 @@
   textborder=roundedleft,
 %  textborder=rectangle,
   % Format of text header
-  eyecatcher=no,
+  eyecatcher=yes,
   headerborder=open,
   headerheight=0.08\textheight,
   headershape=roundedright,
@@ -130,23 +132,23 @@
   linewidth=2pt
   }
   % Eye Catcher
-  {\includegraphics[width=10em]{D1077}} % No eye catcher for this poster. (eyecatcher=no above). If an eye catcher is present, the title is centered between eye-catcher and logo.
+  {\includegraphics[width=10em]{clique}} % No eye catcher for this poster. (eyecatcher=no above). If an eye catcher is present, the title is centered between eye-catcher and logo.
   % Title
   {\sf %Sans Serif
   %\bf% Serif
-  Expression Invariant Face Recognition with a 3DMM}
+  Clustering networks with the collapsed SBM}
   % Authors
   {\sf %Sans Serif
   % Serif
-  \vspace{1em}\{Brian.Amberg, Reinhard.Knothe, Thomas.Vetter\}@unibas.ch
+  %\vspace{1em}
+  Aaron F. McDaid, Brendan Murphy, Nial Friel and Neil Hurley
   }
   % University logo
   {% The makebox allows the title to flow into the logo, this is a hack because of the L shaped logo.
     \makebox[8em][r]{%
       \begin{minipage}{16em}
         \hfill
-        \includegraphics[height=2em]{msrlogo}
-        \includegraphics[height=7.0em]{logo}
+        \includegraphics[height=7.0em]{sfi_trans}
       \end{minipage}
     }
   }
