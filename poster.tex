@@ -24,8 +24,8 @@
 \usepackage{helvet}
 %\usepackage{bookman}
 \usepackage{palatino}
-\usepackage{tikz}
-\usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,shadows}
+% \usepackage{tikz}
+% \usetikzlibrary{arrows,decorations.pathmorphing,backgrounds,positioning,fit,shadows}
 
 \newcommand{\captionfont}{\footnotesize}
 
@@ -176,86 +176,91 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Contribution}{name=contribution,column=0,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   {}We introduce a method for expression invariant face recognition. A
-   generative 3D Morphable Model (3DMM) is used to separate identity and
-   expression components. The expression removal results in increased
-   recognition performance, even on difficult datasets, without a decrease in
-   performance on expression-less datasets.
-
-   It is applicable to any kind of input data, and was evaluated here on
-   textureless range scans.
+   {}We take the Stochastic Block Model of Nowicki \& Snijders (2001) and create a fast
+   MCMC algorithm. A network is input to the algorithm and the output is
+   a sample of clusterings of the nodes.
+   We employ \emph{collapsing} to integrate out variables that are not of
+   interest, and we use recent innovative moves in our algorithm.
+   We also allow that the number of clusters, $K$, in an output of the
+   algorithm rather than an input to the algorithm.
+   We should that it can accurately estimate the number of clusters in synthetic
+   data and demonstrate the model on real data.
   \vspace{0.3em}
  }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Model}{name=model,column=0,below=contribution}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    The Model was learnt from 275 subjects. We used one neutral expression scan
-    per identity and 150 expression scans of a subset of the subjects. 
 
-    The identity model is a linear model build from the neutral scans.
-    \begin{align}
-      \VEC f&=\VEC\mu + \MAT M_n\VEC\alpha_n\qquad.
-    \end{align}
-    For each of the 150 expression scans, we calculated an expression vector as
-    the difference between the expression scan and the corresponding neutral
-    scan of that subject.  This data is already mode-centered, if we regard the
-    neutral expression as the natural mode of expression data. From these offset
-    vectors an additional expression matrix $\MAT M_e$ was calculated, such that the complete linear Model is
-    \begin{align}
-      \VEC f&=\VEC\mu + \MAT M_n\VEC\alpha_n + \MAT M_e\VEC\alpha_e
-    \end{align}
-    The assumption here is, that the face and expression space are linearly
-    independent, such that each face is represented by a unique set of
-    coefficients.  
+$N$, the number of nodes in the network, is given. This factor diagram shows the
+relationships between the variables in the standard SBM.
+
+
+\centering
+\begin{tikzpicture}[scale=0.4, transform shape]
+\tikzstyle{var}=[node distance=3cm, inner sep=0.1cm]
+	\node[var] (K) {$K$};
+	\node[var, below right of=K] (pi) {$\pi$};
+	\node[var, below left of=K] (theta) {$\theta$};
+	% \node[node distance=3cm, above left of=theta] (dirichlet) {$\mbox{Dirichlet}(\alpha)$};
+	% \node[node distance=3cm, above right of=pi] (beta) {$\mbox{Beta}(\beta_1,\beta_2)$};
+	\node[var, below left of=theta] (z) {$ z $};
+	\node[var, below right of=z] (x) {$x$};
+	\node[var, node distance=4.3cm, above of=z] (N) {$N$};
+
+	\draw[->] (K) -- (pi) ;
+	\draw[->] (K) -- (theta) ;
+	\draw[->] (N) -- (z) ;
+	\draw[->] (theta) -- (z) ;
+	\draw[->] (z) -- (x) ;
+	\draw[->] (pi) -- (x) ;
+\end{tikzpicture}
+
+$K$ and $N$ are inputs. The network, $x$, is at the bottom.
+\begin{itemize}
+	\item $\pi$ is a $K \times K$ matrix; $\pi_{ij} \sim \mbox{Beta}(\beta_1, \beta_2)$
+	\item $\theta$ is a vector of length $K$; $\theta \sim \mbox{Dirichlet}(\alpha)$
+	\item $z$ is a vector of length $N$ %; $z_n \sim \mbox{Multinomial}(\theta)$
+	\item $x$ is a $N \times N$ matrix, the adjacency matrix.
+\end{itemize}
+We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{Poisson}(1)$.
+
+
   \vspace{0.3em}
   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Fitting}{name=fitting,column=0,below=model}{
+  \headerbox{Bayes' Theorem}{name=fitting,column=0,below=model}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    A Robust Nonrigid ICP method was used to fit the model to the data.
-    Robustness was achieved by iteratively reweighting the correspondences and
-    using hard compatability test for the closest points.
+  Users will have a network, $x$, of $N$ nodes. The aim is to estimate $z$, the clustering,
+  and estimate the number of clusters.
+  We draw from $$ K, z | x, N $$
+  whereas the original SBM of Nowicki \& Snijders draws from
+  $$ z, \theta, \pi | x, N, K $$
+  We don't usually care about $\theta$ and $\pi$.
 
-    Fitting was initialized by a simple nose detector and proceeded fully
-    automatic.
+  $$
+  \mathrm{P}(K,z|x,N) \propto \mathrm{P}(K) \mathrm{P}(z|K,N) \mathrm{P}(x|z,K,N)
+  $$
   \vspace{0.3em}
   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Distance Measure}{name=measure,column=0,below=fitting}{
+  % \headerbox{Distance Measure}{name=measure,column=0,below=fitting}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   The Mahalanobis angle between the identity coefficients $\VEC{\alpha_{n}}$
-   was used for classification.
-  \vspace{0.3em}
-  }
+   % The Mahalanobis angle between the identity coefficients $\VEC{\alpha_{n}}$
+   % was used for classification.
+  % \vspace{0.3em}
+  % }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Expression Neutralization}{name=results neutralization,column=1,row=0}{
+  \headerbox{Estimating $K$}{name=results neutralization,column=1,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \begin{tikzpicture}[x=0.3333\linewidth,y=-0.42\linewidth]
-    \path [use as bounding box] (-0.5,-0.5) rectangle(2.5,1.7);
-    \path
-    (0,0) node{\includegraphics[width=0.42\linewidth]{D1077}}
-    (1,0) node{\includegraphics[width=0.47\linewidth]{D1077_fit_expression}}
-    (2,0) node{\includegraphics[width=0.47\linewidth]{D1077_fit}}
-
-    (0,1) node{\includegraphics[width=0.42\linewidth]{D1360}}
-    (1,1) node{\includegraphics[width=0.47\linewidth]{D1360_fit_expression}}
-    (2,1) node{\includegraphics[width=0.47\linewidth]{D1360_fit}}
-
-    (0,1.6) node {\smaller a) Target}
-    (1,1.6) node {\smaller b) Fit}
-    (2,1.6) node {\smaller c) Normalized};
-  \end{tikzpicture}
+\includegraphics[width=19em]{LazSynthK}
   \vspace{0.5em}
+  With our prior on $K$, and using Markov moves from the algorithm in Nobile \& Fearnside (2007), we estimate the number of clusters in the same way we estimate the assignments. The algorithm searches over the space of all clusterings, regardless of $K$.
 
-  Expression normalisation for two scans of the same individual.  
-  The robust fitting gives a good estimate (b) of the true face surface given
-  the noisy measurement (a). It fills in holes and removes artifacts using
-  prior knowledge from the face model. The pose and expression normalized faces
-  (c) are used for face recognition.
+  The black lines represent 10 different experiments, where synthetic networks were generated with 5, 10, \ldots 50 clusters. The algorithm arrives at the correct answer typically in 1,000 - 10,000 iterations.
   \vspace{0.5em}
   }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -355,14 +360,14 @@
       \end{thebibliography}
   }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Open Questions}{name=questions,column=0,span=1,below=measure,above=references}{
+  %\headerbox{Open Questions}{name=questions,column=0,span=1,below=fitting,above=references}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    While the expression and identity space are linearly independent, there is
-    some expression left in the identity model. This is because a ``neutral''
-    face is interpreted differently by the subjects.
-
-    We investigate learning ``pure'' separated models from our the available ``impure'' data.
-  }
+    %While the expression and identity space are linearly independent, there is
+    %some expression left in the identity model. This is because a ``neutral''
+    %face is interpreted differently by the subjects.
+%
+    %We investigate learning ``pure'' separated models from our the available ``impure'' data.
+  %}
 
 \end{poster}
 
