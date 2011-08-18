@@ -256,8 +256,9 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Estimating $K$}{name=results neutralization,column=1,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\includegraphics[width=19em]{LazSynthK}
-  \vspace{0.5em}
+\includegraphics[width=9em]{K20adjacency}
+\includegraphics[width=9em]{LazSynthK}
+  %\vspace{0.5em}
   With our prior on $K$, and using Markov moves from the algorithm in Nobile \& Fearnside (2007), we estimate the number of clusters in the same way we estimate the assignments. The algorithm searches over the space of all clusterings, regardless of $K$.
 
   The black lines represent 10 different experiments, where synthetic networks were generated with 5, 10, \ldots 50 clusters. The algorithm arrives at the correct answer typically in 1,000 - 10,000 iterations.
@@ -267,7 +268,10 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
   \headerbox{Funding}{name=funding,column=1,span=2,above=bottom}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \smaller 
-  \hspace{1em}This work was supported in part by Microsoft Research through the European PhD Scholarship Programme.
+  \hspace{1em}This work was carried out in the CLIQUE Strategic Research
+  Cluster which is funded by Science Foundation Ireland (SFI)
+  under grant number 08/SRC/I1407.
+
   }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Results}{name=results,column=1,span=2,below=results neutralization,above=funding}{
@@ -315,29 +319,9 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
   \vspace{0.5em}
   }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Robustness}{name=robustness,column=2,row=0,above=results,span=1}{
+  \headerbox{?}{name=robustness,column=2,row=0,above=results,span=1}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \begin{tikzpicture}[x=0.3333\linewidth,y=-0.42\linewidth]
-    \path [use as bounding box] (-0.5,-0.5) rectangle(2.5,1.7);
-    \path
-    (0,0) node{\includegraphics[width=0.42\linewidth]{D1160}}
-    (1,0) node{\includegraphics[width=0.42\linewidth]{D1425}}
-    (2,0) node{\includegraphics[width=0.42\linewidth]{D1205}}
 
-    (0,1) node{\includegraphics[width=0.28\linewidth]{D1160_fit_expression}}
-    (1,1) node{\includegraphics[width=0.28\linewidth]{D1425_fit_expression}}
-    (2,1) node{\includegraphics[width=0.28\linewidth]{D1205_fit_expression}}
-
-    (1,0.5) node {\smaller a) Target}
-    (1,1.6) node {\smaller b) Robust Reconstruction};
-  \end{tikzpicture}
-  \vspace{0.5em}
-
-  The reconstruction (b) is robust against scans (a) with artifacts, noise, and
-  holes.
-  
-  This is achieved by a robust iteratively reweighted ICP algorithm and outlier
-  rejection based on angle comparisions between corresponding points.
   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
