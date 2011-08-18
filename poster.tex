@@ -302,12 +302,16 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
   \\
   \vspace{0.5em}
   }
-  \headerbox{What is collapsing?}{name=collapsing,column=2,below=results}{
+  \headerbox{What is collapsing?}{name=collapsing,column=1,span=2,below=results}{
   One option would have been to draw from
   $$ K, z, \theta, \pi | x, N $$
   i.e. given a network and the number of nodes, draw the clustering alongside the estimates for the real-valued variables $\pi$ and $\theta$.
   This would have been difficult to implement, requiring some form of Reversible Jump Markov Chain Monte Carlo (RJMCMC), and would also
   likely have been quite inefficient.
+  Given that we are not interested in $\pi$ and $\theta$, we can use the following identity:
+  $$ \mathrm{P}(K, z | x, N) = \int \mathrm{d}\pi \; \mathrm{d}\theta \; \mathrm{P}(K, z, \theta, \pi | x, N) $$
+  This is straightforward to solve analytically in this model, hence giving us a simpler expression for our desired estimator.
+  $$ \mathrm{P}(K, z | x, N) $$
   }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
