@@ -254,15 +254,22 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
   % }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Estimating $K$}{name=results neutralization,column=1,row=0}{
+  \headerbox{Estimating the number of clusters}{name=results neutralization,column=1,row=0,span=1}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\includegraphics[width=9em]{K20adjacency}
-\includegraphics[width=9em]{LazSynthK}
-  %\vspace{0.5em}
   With our prior on $K$, and using Markov moves from the algorithm in Nobile \& Fearnside (2007), we estimate the number of clusters in the same way we estimate the assignments. The algorithm searches over the space of all clusterings, regardless of $K$.
 
+  \textbf{Synthetic data}
+
+  For a given number of clusters, $K$, a directed network is generated with 10 nodes in each clusters. For each of the $K \times $ blocks, the expected density, $\pi_{ij}$ is drawn from $ \mbox{Beta}(1,1) \equiv \mbox{Uniform}(0,1) $.
+
+\includegraphics[width=19em]{K20adjacency}
+
+  \textbf{Results}
+
   The black lines represent 10 different experiments, where synthetic networks were generated with 5, 10, \ldots 50 clusters. The algorithm arrives at the correct answer typically in 1,000 - 10,000 iterations.
-  \vspace{0.5em}
+
+\includegraphics[width=22em]{LazSynthK}
+  %\vspace{0.5em}
   }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Funding}{name=funding,column=1,span=2,above=bottom}{
@@ -274,55 +281,36 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
 
   }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{Results}{name=results,column=1,span=2,below=results neutralization,above=funding}{
+  \headerbox{Application to survey network}{name=results,column=2,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      \begin{multicols}{2}
-        The method was evaluated on the GavabDB expression dataset which
-        contains 427 Scans, with 3 neutral scans and 4 expression scans per ID.
-        To test the impact of expression invariance on neutral data we used the
-        UND Dataset from the Face Recognition Great Vendor Test, which contains
-        953 neutral scans with one to eight scans per subject.
-      \end{multicols}\vspace{-1em}
+	      We did a survey of the participants of the \emph{Web Science Summer School 2011} hosted in DERI, Galway. 74 participants were asked who they knew before the summer school and also who they talked to at the summer school. 41 responded. We created an unweighted directed network and fed it into our SBM algorithm. There was an edge from A to B if A reported having either kind of link with B. We included the non-respondents - they have no edges coming out of them, but they do have edges coming in.
       \mbox{\hspace{0.3\linewidth}\rule{0.4\linewidth}{1pt}\hspace{0.3\linewidth}}\\
-      \begin{tabular}{cc}
-        \hspace{-0.5em}\scalebox{0.735}{\input{shrec_mncg}} &
-        \hspace{0.5em}\scalebox{0.735}{\input{und_mncg}}
-      \end{tabular}\\
-%      \begin{multicols}{2}
-        {Expression neutralization improves results on the expression dataset
-        without decreasing the accuracy on the neutral testset. Plotted is the
-        ratio of correct answers to  the number of possible correct answers.
-        %Note the different scales for the two graphs.
-        %Our approach has a high accuracy on the neutral (UND) dataset.
-        }
-%      \end{multicols}\vspace{-1em}
-      \\\mbox{\hspace{0.3\linewidth}\rule{0.4\linewidth}{1pt}\hspace{0.3\linewidth}}\\
-      \begin{tabular}{cc}
-        \hspace{-0.5em}\scalebox{0.735}{\input{shrec_pr}} &
-        \hspace{0.5em}\scalebox{0.735}{\input{und_pr}}
-      \end{tabular}\\
-%      \begin{multicols}{2}
-        {Plotted are precision and recall for different retrieval depths. The lower
-        precision of the UND database is due to the fact that some queries have no
-        correct answers.}
-%      \end{multicols}\vspace{-1em}
-      \\\mbox{\hspace{0.3\linewidth}\rule{0.4\linewidth}{1pt}\hspace{0.3\linewidth}}\\
-      \begin{tabular}{cc}
-        \hspace{-0.5em}\scalebox{0.735}{\input{shrec_far_frr}} &
-        \hspace{0.5em}\scalebox{0.735}{\input{und_far_frr}}
-      \end{tabular}\\
-%      \begin{multicols}{2}
-        {Impostor detection is reliable, as the minimum distance to a match
-        is smaller than the minimum distance to a nonmatch. }
-%      \end{multicols}
+
+      Our algorithm divides the 74 people into 7 clusters. The seven clusters were interpretable, one of the DERI students assisted us in interpreting the groups. The \emph{non-respondents} were identified, but split into two clusters. The algorithm divided them in two due to differences in the connections coming into these two subgroups.
+
+      The \emph{organizers} were connected, in both directions, with the vast majority of participants, as expected.
+
+      The \emph{visitors} were people from outside DERI who attended the summer school.
+
+
+      The \emph{locals} include other people at DERI who attended the Summer School but were not part of organizing.
+
+      Finally, there was a small cluster we've called \emph{Quiet}, which seem to be distinguished simply by having low in-degree and low out-degree.
+
+  {\includegraphics[width=20em]{labelled_survey_adj}}
+
   \\
   \vspace{0.5em}
   }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \headerbox{?}{name=robustness,column=2,row=0,above=results,span=1}{
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+  \headerbox{What is collapsing?}{name=collapsing,column=2,below=results}{
+  One option would have been to draw from
+  $$ K, z, \theta, \pi | x, N $$
+  i.e. given a network and the number of nodes, draw the clustering alongside the estimates for the real-valued variables $\pi$ and $\theta$.
+  This would have been difficult to implement, requiring some form of Reversible Jump Markov Chain Monte Carlo (RJMCMC), and would also
+  likely have been quite inefficient.
   }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{References}{name=references,column=0,above=bottom}{
