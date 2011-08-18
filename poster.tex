@@ -141,7 +141,7 @@
   {\sf %Sans Serif
   % Serif
   %\vspace{1em}
-  Aaron F. McDaid, Brendan Murphy, Nial Friel and Neil Hurley
+  Aaron F. McDaid, Brendan Murphy, Nial Friel and Neil J. Hurley
   }
   % University logo
   {% The makebox allows the title to flow into the logo, this is a hack because of the L shaped logo.
@@ -176,7 +176,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Contribution}{name=contribution,column=0,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   {}We take the Stochastic Block Model of Nowicki \& Snijders (2001) [2] and create a fast
+   {}We take the Stochastic Block Model of Nowicki \& Snijders (2001) [2] and create a new fast
    MCMC algorithm. A network is input to the algorithm and the output is
    a sample of clusterings of the nodes.
    We employ \emph{collapsing} to integrate out variables that are not of
@@ -193,7 +193,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 $N$, the number of nodes in the network, is given. This factor diagram shows the
-relationships between the variables in the standard SBM.
+relationships between the variables in the SBM.
 
 
 \centering
@@ -216,7 +216,7 @@ relationships between the variables in the standard SBM.
 	\draw[->] (pi) -- (x) ;
 \end{tikzpicture}
 
-$K$ and $N$ are inputs. The network, $x$, is at the bottom.
+$K$ is the number of clusters. The network, $x$, is at the bottom.
 \begin{itemize}
 	\item $\pi$ is a $K \times K$ matrix; $\pi_{ij} \sim \mbox{Beta}(\beta_1, \beta_2)$
 	\item $\theta$ is a vector of length $K$; $\theta \sim \mbox{Dirichlet}(\alpha)$
@@ -260,7 +260,7 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
 
   \textbf{Synthetic data}
 
-  For a given number of clusters, $K$, a directed network is generated with 10 nodes in each clusters. For each of the $K \times K $ blocks, the expected density, $\pi_{ij}$ is drawn from $ \mbox{Beta}(1,1) \equiv \mbox{Uniform}(0,1) $.
+  For a given number of clusters, $K$, a directed network is generated with 10 nodes in each clusters. For each of the $K \times K $ blocks, the expected density, $\pi_{ij}$ is drawn from $ \mbox{Beta}(1,1) \equiv \mbox{Uniform}(0,1) $ and then a network can be generated.
 
 \includegraphics[width=19em]{K20adjacency}
 
