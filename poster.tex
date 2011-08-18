@@ -176,14 +176,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Contribution}{name=contribution,column=0,row=0}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   {}We take the Stochastic Block Model of Nowicki \& Snijders (2001) and create a fast
+   {}We take the Stochastic Block Model of Nowicki \& Snijders (2001) [2] and create a fast
    MCMC algorithm. A network is input to the algorithm and the output is
    a sample of clusterings of the nodes.
    We employ \emph{collapsing} to integrate out variables that are not of
-   interest, and we use recent innovative moves in our algorithm.
-   We also allow that the number of clusters, $K$, in an output of the
+   interest. We apply existing efficient MCMC moves in our algorithm, which were originally applied in the context a finite mixture model [1].
+   We also allow that the number of clusters, $K$, is an output of the
    algorithm rather than an input to the algorithm.
-   We should that it can accurately estimate the number of clusters in synthetic
+   We show that it can accurately estimate the number of clusters in synthetic
    data and demonstrate the model on real data.
   \vspace{0.3em}
  }
@@ -235,9 +235,9 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
   Users will have a network, $x$, of $N$ nodes. The aim is to estimate $z$, the clustering,
   and estimate the number of clusters.
   We draw from $$ K, z | x, N $$
-  whereas the original SBM of Nowicki \& Snijders draws from
+  whereas the original SBM of Nowicki \& Snijders [2] draws from
   $$ z, \theta, \pi | x, N, K $$
-  We don't usually care about $\theta$ and $\pi$.
+  We don't usually care about $\theta$ and $\pi$, and we are able to \emph{collapse} them.
 
   $$
   \mathrm{P}(K,z|x,N) \propto \mathrm{P}(K) \mathrm{P}(z|K,N) \mathrm{P}(x|z,K,N)
@@ -256,17 +256,17 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \headerbox{Estimating the number of clusters}{name=results neutralization,column=1,row=0,span=1}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  With our prior on $K$, and using Markov moves from the algorithm in Nobile \& Fearnside (2007), we estimate the number of clusters in the same way we estimate the assignments. The algorithm searches over the space of all clusterings, regardless of $K$.
+  With our prior on $K$, and using Markov moves from the algorithm in Nobile \& Fearnside (2007) [1], we estimate the number of clusters alongside estimating the assignments. The algorithm searches over the space of all clusterings, regardless of $K$.
 
   \textbf{Synthetic data}
 
-  For a given number of clusters, $K$, a directed network is generated with 10 nodes in each clusters. For each of the $K \times $ blocks, the expected density, $\pi_{ij}$ is drawn from $ \mbox{Beta}(1,1) \equiv \mbox{Uniform}(0,1) $.
+  For a given number of clusters, $K$, a directed network is generated with 10 nodes in each clusters. For each of the $K \times K $ blocks, the expected density, $\pi_{ij}$ is drawn from $ \mbox{Beta}(1,1) \equiv \mbox{Uniform}(0,1) $.
 
 \includegraphics[width=19em]{K20adjacency}
 
   \textbf{Results}
 
-  The black lines represent 10 different experiments, where synthetic networks were generated with 5, 10, \ldots 50 clusters. The algorithm arrives at the correct answer typically in 1,000 - 10,000 iterations.
+  The black lines below represent 10 different experiments, where synthetic networks were generated with 5, 10, \ldots 50 clusters. The algorithm arrives at the correct answer typically in 1,000 - 10,000 iterations.
 
 \includegraphics[width=22em]{LazSynthK}
   %\vspace{0.5em}
@@ -288,12 +288,12 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
 
       Our algorithm divides the 74 people into 7 clusters. The seven clusters were interpretable, one of the DERI students assisted us in interpreting the groups. The \emph{non-respondents} were identified, but split into two clusters. The algorithm divided them in two due to differences in the connections coming into these two subgroups.
 
-      The \emph{organizers} were connected, in both directions, with the vast majority of participants, as expected.
+      The \emph{Organizers} had communicated, in both directions, with the vast majority of participants, as expected.
 
-      The \emph{visitors} were people from outside DERI who attended the summer school.
+      The \emph{Visitors} were people from outside DERI who attended the summer school.
 
 
-      The \emph{locals} include other people at DERI who attended the Summer School but were not part of organizing.
+      The \emph{Locals} include other people at DERI who attended the Summer School but were not part of organizing it.
 
       Finally, there was a small cluster we've called \emph{Quiet}, which seem to be distinguished simply by having low in-degree and low out-degree.
 
@@ -326,13 +326,17 @@ We also allow $K$ to be an output, by specifying a prior for $K$. $K \sim \mbox{
       \begin{thebibliography}{1}\itemsep=-0.01em
       \setlength{\baselineskip}{0.4em}
       \bibitem{amberg07:nonrigid}
-        B.~Amberg, S.~Romdhani, T. Vetter.
-        \newblock {O}ptimal {S}tep {N}onrigid {ICP} {A}lgorithms for {S}urface {R}egistration
-        \newblock In {\em Computer Vision and Pattern Recognition 2007}
+        A.~Nobile, A. Fearnside.
+        \newblock Bayesian finite mixtures with an unknown number of components: The allocation sampler.
+        \newblock In {\em Statistics and Computing 2007}
       \bibitem{amberg08:recognition}
-        B.~Amberg, R.~Knothe, T. Vetter.
-        \newblock Expression Invariant Face Recognition with a 3D Morphable Model
-        \newblock In {\em Automated Face and Gesture Recognition 2008}
+        K.~Nowicki, T.A.B. Snijders.
+        \newblock Estimation and prediction for stochastic blockstructures.
+        \newblock In {\em Journal of the American Statisitical Association 2001}
+      \bibitem{wysefriel}
+        J.~Wyse, N. Friel.
+        \newblock Block clustering with collapsed latent block models.
+	\newblock In {\em Statistics and Computing 2010}
       \end{thebibliography}
   }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
